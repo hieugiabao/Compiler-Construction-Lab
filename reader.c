@@ -23,16 +23,16 @@ int readChar(void)
   return currentChar;
 }
 
-openInputStream()
+openInputStream(char *fileName)
 {
-  inputStream = fopen("./test/example1.kpl", "rt");
+  inputStream = fopen(fileName, "rt");
   if (inputStream == NULL)
   {
     printf("Khong thay");
     return IO_ERROR;
   }
   else
-    printf("Da mo xong");
+    printf("Da mo xong\n");
 
   lineNo = 1;
   colNo = 0;
