@@ -85,8 +85,6 @@ Token *readNumber(void)
 Token *readConstChar(void)
 {
   // TODO
-  char *string = (char *)malloc(sizeof(char) * 16);
-  strcpy(string, "");
   Token *token = makeToken(TK_CHAR, lineNo, colNo);
 
   readChar();
@@ -441,7 +439,8 @@ int scan(char *fileName)
 main()
 {
 
-  scan("./test/example2.kpl");
+  if (scan("./test/example2.kpl") == IO_ERROR)
+    printf("IO_ERROR\n");
 
   // return -1;
   getch();
