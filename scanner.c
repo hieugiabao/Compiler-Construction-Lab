@@ -87,21 +87,37 @@ Token *readConstChar(void)
   // TODO
   char *string = (char *)malloc(sizeof(char) * 16);
   strcpy(string, "");
+  Token *token = makeToken(TK_CHAR, lineNo, colNo);
 
-  int preColNo = colNo,
-      preLineNo = lineNo;
   readChar();
-  do
+  if (currentChar == EOF)
   {
-    string = strncat(string, &currentChar, 1);
-    readChar();
-  } while (currentChar != EOF && charCodes[currentChar] != CHAR_SINGLEQUOTE);
+    token->tokenType = TK_NONE;
+    error(ERR_INVALIDCHARCONSTANT, token->lineNo, token->colNo);
+    return token;
+  }
 
-  // string = strncat(string, &currentChar, 1);
-  Token *token = makeToken(TK_CHAR, preLineNo, preColNo);
-  strcpy(token->string, string);
+  token->string[0] = currentChar;
+  token->string[1] = '\0';
 
   readChar();
+  if (currentChar == EOF)
+  {
+    token->tokenType = TK_NONE;
+    error(ERR_INVALIDCHARCONSTANT, token->lineNo, token->colNo);
+    return token;
+  }
+  if (charCodes[currentChar] == CHAR_SINGLEQUOTE)
+  {
+    readChar();
+    return token;
+  }
+  else
+  {
+    token->tokenType = TK_NONE;
+    error(ERR_INVALIDCHARCONSTANT, token->lineNo, token->colNo);
+    return token;
+  }
   return token;
 }
 
