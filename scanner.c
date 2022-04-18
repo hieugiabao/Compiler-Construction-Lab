@@ -30,11 +30,21 @@ void skipBlank()
 
 void skipComment()
 {
+  int closed = 0;
   // TODO
-  while (currentChar != EOF &&
-         (charCodes[currentChar] != CHAR_TIMES || (charCodes[currentChar] == CHAR_TIMES && charCodes[readChar()] != CHAR_RPAR)))
+  while (currentChar != EOF && closed < 2)
+  {
+    if (charCodes[currentChar] == CHAR_TIMES)
+      closed = 1;
+    else if (charCodes[currentChar] == CHAR_RPAR)
+      closed = closed == 1 ? 2 : 0;
+    else
+      closed = 0;
     readChar();
-  readChar();
+  }
+  if (closed != 2)
+    error(ERR_ENDOFCOMMENT, lineNo, colNo);
+  return;
 }
 
 Token *readIdentKeyword(void)
@@ -46,10 +56,15 @@ Token *readIdentKeyword(void)
   int preColNo = colNo,
       preLineNo = lineNo;
 
-  while (currentChar != EOF && (charCodes[currentChar] == CHAR_LETTER || charCodes[currentChar] == CHAR_DIGIT || currentChar == '_'))
+  while (currentChar != EOF && (charCodes[currentChar] == CHAR_LETTER || charCodes[currentChar] == CHAR_DIGIT))
   {
     word = strncat(word, &currentChar, 1);
     readChar();
+  }
+  if (strlen(word) > MAX_IDENT_LEN)
+  {
+    error(ERR_IDENTTOOLONG, preLineNo, preColNo);
+    return makeToken(TK_NONE, preLineNo, preColNo);
   }
 
   TokenType tokenType = checkKeyword(word);
@@ -75,6 +90,11 @@ Token *readNumber(void)
   {
     number = strncat(number, &currentChar, 1);
     readChar();
+  }
+  if (atoi(number) < 0)
+  {
+    error(ERR_NUMBERTOOLONG, preLineNo, preColNo);
+    return makeToken(TK_NONE, preLineNo, preColNo);
   }
 
   Token *token = makeToken(TK_NUMBER, preLineNo, preColNo);
@@ -439,7 +459,7 @@ int scan(char *fileName)
 main()
 {
 
-  if (scan("./test/example2.kpl") == IO_ERROR)
+  if (scan("./test/example1.kpl") == IO_ERROR)
     printf("IO_ERROR\n");
 
   // return -1;
