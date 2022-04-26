@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <conio.h>
+#include <errno.h>
 #include "reader.h"
 #include "charcode.h"
 #include "token.h"
@@ -28,28 +29,51 @@ void skipBlank()
     readChar();
 }
 
-void skipComment()
+void skipMultiLineComment()
 {
   // TODO
-  while (currentChar != EOF &&
-         (charCodes[currentChar] != CHAR_TIMES || (charCodes[currentChar] == CHAR_TIMES && charCodes[readChar()] != CHAR_RPAR)))
+  int closed = 0;
+  while (currentChar != EOF && closed < 2)
+  {
+    if (charCodes[currentChar] == CHAR_TIMES)
+      closed = 1;
+    else if (charCodes[currentChar] == CHAR_RPAR)
+      closed = closed == 1 ? 2 : 0;
+    else
+      closed = 0;
+    readChar();
+  }
+  if (closed != 2)
+    error(ERR_ENDOFCOMMENT, lineNo, colNo);
+  return;
+}
+
+void skipSingleLineComment()
+{
+  // TODO
+  while (currentChar != EOF && charCodes[currentChar] != '\n')
     readChar();
   readChar();
+  return;
 }
 
 Token *readIdentKeyword(void)
 {
   // TODO
-  char *word = (char *)malloc(sizeof(char) * (MAX_IDENT_LEN + 1));
-  strcpy(word, "");
+  int count = 0;
+  char word[MAX_IDENT_LEN + 1];
 
   int preColNo = colNo,
       preLineNo = lineNo;
 
   while (currentChar != EOF && (charCodes[currentChar] == CHAR_LETTER || charCodes[currentChar] == CHAR_DIGIT || currentChar == '_'))
   {
-    word = strncat(word, &currentChar, 1);
+    if (count <= MAX_IDENT_LEN)
+    {
+      word[count] = (char)currentChar;
+    }
     readChar();
+    count++;
   }
 
   TokenType tokenType = checkKeyword(word);
@@ -75,6 +99,12 @@ Token *readNumber(void)
   {
     number = strncat(number, &currentChar, 1);
     readChar();
+  }
+
+  if (strtol(number, NULL, 0) == LONG_MAX && errno == ERANGE)
+  {
+    error(ERR_NUMBERTOOLONG, preLineNo, preColNo);
+    return makeToken(TK_NONE, preLineNo, preColNo);
   }
 
   Token *token = makeToken(TK_NUMBER, preLineNo, preColNo);
@@ -136,7 +166,7 @@ Token *getToken(void)
     if (charCodes[currentChar] == CHAR_TIMES)
     {
       readChar();
-      skipComment();
+      skipMultiLineComment();
       return getToken();
     }
     else if (charCodes[currentChar] == CHAR_PERIOD)
