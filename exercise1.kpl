@@ -1,0 +1,32 @@
+PROGRAM checkLeftTriangularMatrix;
+
+TYPE R = ARRAY(. 100 .) OF INTEGER;
+
+VAR n: INTEGER;
+    arr: ARRAY (. 100 .) OF R;
+
+PROCEDURE input;
+VAR i: INTEGER;
+    j: INTEGER;
+    tmp: INTEGER;
+BEGIN
+  n := READI;
+  FOR i:=1 TO n DO
+    FOR j:=i TO n DO
+      arr(.i.)(.j.) := READI;
+END;
+
+FUNCTION isLeftTriangularMatrix: BOOLEAN;
+VAR i: INTEGER;
+    j: INTEGER;
+    k: INTEGER;
+    tmp: INTEGER;
+BEGIN
+  FOR i:=1 TO n DO
+    FOR j:=1 TO i DO
+      IF ()
+END;
+
+BEGIN
+
+END.

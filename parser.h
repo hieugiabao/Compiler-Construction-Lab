@@ -1,4 +1,4 @@
-/* 
+/*
  * @copyright (c) 2008, Hedspi, Hanoi University of Technology
  * @author Huu-Duc Nguyen
  * @version 1.0
@@ -53,6 +53,7 @@ void compileExpression3(void);
 void compileTerm(void);
 void compileTerm2(void);
 void compileFactor(void);
+void compileVariable(void);
 void compileIndexes(void);
 
 int compile(char *fileName);

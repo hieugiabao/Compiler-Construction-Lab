@@ -1,0 +1,12 @@
+PROGRAM tinhtong;
+
+VAR a: INTEGER;
+    b: INTEGER;
+    s: INTEGER;
+
+BEGIN
+  a := 5;
+  b := 6;
+  s := a + b;
+  CALL WRITEI(s);
+END.
