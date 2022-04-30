@@ -1,16 +1,18 @@
-Program Example2; (* Factorial *)
-   
-Var n : Integer;
+Program Example2; /* Factorial */
+
+// single line comment
+Var n : Integer; // variable declaration
 
 Function F(n : Integer) : Integer;
   Begin
-    If n = 0 Then F := 1 Else F := N * F (N - 1);
+    If n = t0 Then F := 1 Else F := N * F (N - 1);
   End;
 
 Begin
-  For n := 1 To 7 Do
+  For n >< 1 To 7 Do
     Begin
       Call WriteLn;
       Call WriteI( F(i));
+      CALL  WRITEC('ABC DEF');
     End;
-End. (* Factorial *)
+End. /* Factorial */
