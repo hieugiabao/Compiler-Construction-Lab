@@ -1,8 +1,7 @@
 Program Example2; /* Factorial */
 
-// single line comment
-Var n : Integer; // variable declaration
-
+Var n : Integer; 
+// Comment single line
 Function F(n : Integer) : Integer;
   Begin
     If n = t0 Then F := 1 Else F := N * F (N - 1);
