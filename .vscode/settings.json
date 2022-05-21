@@ -1,0 +1,9 @@
+{
+  "files.associations": {
+    "*.html": "html",
+    "reader.h": "c",
+    "error.h": "c",
+    "limits": "c"
+  }
+  // "C_Cpp.errorSquiggles": "Disabled"
+}

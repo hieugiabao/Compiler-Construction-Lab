@@ -22,11 +22,17 @@ VAR i: INTEGER;
     k: INTEGER;
     tmp: INTEGER;
 BEGIN
-  FOR i:=1 TO n DO
-    FOR j:=1 TO i DO
-      IF ()
+  FOR i:=2 TO n DO
+    FOR j:=1 TO (i-1) DO
+      IF (arr(.i.)(.j.)!=0)
+        RETURN false;
+  RETURN true;
 END;
 
 BEGIN
-
+  CALL input;
+  IF isLeftTriangularMatrix = FALSE THEN 
+    CALL WRITEI(1)
+  ELSE  
+    CALL WRITEI(0);
 END.

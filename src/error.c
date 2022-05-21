@@ -1,4 +1,4 @@
-/* 
+/*
  * @copyright (c) 2008, Hedspi, Hanoi University of Technology
  * @author Huu-Duc Nguyen
  * @version 1.0
@@ -6,10 +6,12 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "error.h"
+#include <error/error.h>
 
-void error(ErrorCode err, int lineNo, int colNo) {
-  switch (err) {
+void error(ErrorCode err, int lineNo, int colNo)
+{
+  switch (err)
+  {
   case ERR_ENDOFCOMMENT:
     printf("%d-%d:%s\n", lineNo, colNo, ERM_ENDOFCOMMENT);
     break;
@@ -56,11 +58,13 @@ void error(ErrorCode err, int lineNo, int colNo) {
   exit(0);
 }
 
-void missingToken(TokenType tokenType, int lineNo, int colNo) {
+void missingToken(TokenType tokenType, int lineNo, int colNo)
+{
   printf("%d-%d:Missing %s\n", lineNo, colNo, tokenToString(tokenType));
   exit(0);
 }
 
-void assert(char *msg) {
+void assert(char *msg)
+{
   printf("%s\n", msg);
 }
