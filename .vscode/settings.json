@@ -3,7 +3,8 @@
     "*.html": "html",
     "reader.h": "c",
     "error.h": "c",
-    "limits": "c"
+    "limits": "c",
+    "scanner.h": "c"
   }
   // "C_Cpp.errorSquiggles": "Disabled"
 }

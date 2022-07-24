@@ -1,0 +1,13 @@
+Program MATRANVUONG;
+
+Type L = Array(.5.) Of Integer;
+Var A : Array(.5.) OF L;
+
+
+BEGIN
+  For i := 0 to 5 Do
+    Begin
+      For j := 0 to i Do
+        A(.i.)(.j.) := 0;
+    End;
+END.
