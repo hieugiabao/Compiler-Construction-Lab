@@ -58,7 +58,8 @@ Token *readIdentKeyword(void)
 
   while (currentChar != EOF && (charCodes[currentChar] == CHAR_LETTER || charCodes[currentChar] == CHAR_DIGIT))
   {
-    word = strncat(word, &currentChar, 1);
+    char kt = (char)currentChar;
+    word = strncat(word, &kt, 1);
     readChar();
   }
   if (strlen(word) > MAX_IDENT_LEN)
@@ -88,7 +89,8 @@ Token *readNumber(void)
 
   while (currentChar != EOF && charCodes[currentChar] == CHAR_DIGIT)
   {
-    number = strncat(number, &currentChar, 1);
+    char kt = (char)currentChar;
+    number = strncat(number, &kt, 1);
     readChar();
   }
   if (atoi(number) < 0)
@@ -456,10 +458,10 @@ int scan(char *fileName)
 
 /******************************************************************/
 
-main()
+int main(int argc, char *argv[])
 {
 
-  if (scan("./test/example1.kpl") == IO_ERROR)
+  if (scan(argv[1]) == IO_ERROR)
     printf("IO_ERROR\n");
 
   // return -1;
